@@ -1,17 +1,10 @@
 #include "shell.h"
 
-int main(int ac, char **argv){
-  char *prompt = "(Eshell) $ ";
-  char *lineptr;
-  size_t n = 0; 
+int main(int argc, char **argv)
+{
+	(void)argc, (void)argv;
 
-  /* declaring void variables */
-  (void)ac; (void)argv;
+	_print_prompt();
 
-  printf("%s", prompt);
-  getline(&lineptr, &n, stdin);
-  printf("%s\n", lineptr);
-
-  free(lineptr);
-  return (0);
+	return (0);
 }
