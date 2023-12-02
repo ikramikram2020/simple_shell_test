@@ -1,33 +1,55 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#include "shell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
+/**
+ * main - main shell to execute commands
+ *
+ * @argc: number of arguments
+ * @argv: array of strings of arguments
+ * @env: environment variables
+ *
+ * Return: 0 on success, -1 on failure
+ */
 
-extern char **environ;
+int main(int argc, char **argv, char **env)
+{
+	int counter = 1;
+	(void)argc;
 
-void _print_prompt(void);
-int _execute_command(char *argv[], char *command[], int counter, char *env[]);
-int _stringlen(const char *input);
-char *_stringdup(const char *input);
-char *_stringcpy(char *dest, const char *src);
-void _error_handler(char *name, int counter, char **command, int status);
-int _count_commands(const char *command);
-char **_create_full_command(const char *command);
-char *_int_to_string(int number);
-char *_get_path(void);
-int _stringncmp(const char *first, const char *second, size_t no_bytes);
-char *_check_path(const char *command);
-char *_stringcat(char *dest, const char *src);
-char *_get_input(void);
-void _print_env(char **env);
-int _check_exit(char **full_command);
-long int _string_to_int(char *string);
-void _free_full_command(char **full_command);
+	while (1)
+	{
+		char *get_input;
+		char **full_command;
 
-#endif
+		_print_prompt();
+		get_input = _get_input();
+		if (get_input[0] == '\n' || get_input == NULL)
+		{
+			free(get_input);
+			continue;
+		}
+		full_command = _create_full_command(get_input);
+		free(get_input);
+		get_input = NULL;
+		if (full_command == NULL)
+			continue;
+		if (_check_exit(full_command) == -1)
+		{
+			_error_handler(argv[0], counter, full_command, 0);
+			_free_full_command(full_command);
+			if (!isatty(STDIN_FILENO))
+				exit(2);
+			counter++;
+			continue;
+		}
+		if (_stringncmp(full_command[0], "env", 3) == 0)
+		{
+			_print_env(env);
+			continue;
+		}
+		_execute_command(argv, full_command, counter, env);
+		_free_full_command(full_command);
+		full_command = NULL;
+		counter++;
+	}
+	return (0);
+}
