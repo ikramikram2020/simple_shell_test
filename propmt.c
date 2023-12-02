@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
-- _print_prompt - function that prints "$" shell prompt
-- 
-- Return: void
+ * _print_prompt - function that prints "$" shell prompt
+ *
+ * Return: void
 */
 void _print_prompt(void)
 {
