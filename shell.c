@@ -1,15 +1,14 @@
 #include "shell.h"
 
 /**
- * main - main shell to execute commands
+ * main - Main shell to execute commands.
  *
- * @argc: number of arguments
- * @argv: array of strings of arguments
- * @env: environment variables
+ * @argc: Number of arguments.
+ * @argv: Array of strings representing arguments.
+ * @env: Array of strings representing environment variables.
  *
- * Return: 0 on success, -1 on failure
+ * Return: 0 on success, -1 on failure.
  */
-
 int main(int argc, char **argv, char **env)
 {
 	int counter = 1;
@@ -53,3 +52,4 @@ int main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+
